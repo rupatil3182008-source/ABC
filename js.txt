@@ -1,0 +1,73 @@
+
+/* Shopping Cart */
+let cartCount = 0;
+
+function addToCart(productName) {
+    cartCount++;
+
+    document.getElementById("cartCount").textContent = cartCount;
+
+    alert(productName + " added to cart!");
+}
+
+/* Filter Products by Category */
+function filterProducts(category) {
+    const products = document.querySelectorAll(".product");
+    let visibleCount = 0;
+
+    products.forEach(function(product) {
+        const productCategory = product.dataset.category;
+
+        const matches =
+            category === "All" || productCategory === category;
+
+        product.style.display = matches ? "block" : "none";
+
+        if (matches) {
+            visibleCount++;
+        }
+    });
+
+    showMessage(visibleCount);
+}
+
+/* Search Products */
+function searchProducts() {
+    const searchInput = document.getElementById("searchInput");
+    const query = searchInput.value.toLowerCase().trim();
+
+    const products = document.querySelectorAll(".product");
+    let visibleCount = 0;
+
+    products.forEach(function(product) {
+        const productDetails = product.textContent.toLowerCase();
+        const matches = productDetails.includes(query);
+
+        product.style.display = matches ? "block" : "none";
+
+        if (matches) {
+            visibleCount++;
+        }
+    });
+
+    showMessage(visibleCount);
+}
+
+/* Display Search Message */
+function showMessage(count) {
+    const message = document.getElementById("message");
+
+    if (count === 0) {
+        message.textContent = "No products found.";
+    } else {
+        message.textContent = "";
+    }
+}
+
+/* Search When Enter Is Pressed */
+document.getElementById("searchInput")
+    .addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+            searchProducts();
+        }
+    });
